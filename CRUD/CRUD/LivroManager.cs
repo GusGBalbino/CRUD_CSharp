@@ -30,6 +30,7 @@ namespace CRUD
                 livroExistente.Titulo = livro.Titulo;
                 livroExistente.Autor = livro.Autor;
                 livroExistente.AnoPublicacao = livro.AnoPublicacao;
+                livroExistente.Valor = livro.Valor;
             }
         }
 

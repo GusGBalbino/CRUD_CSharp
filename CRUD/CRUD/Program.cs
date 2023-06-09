@@ -72,46 +72,47 @@ namespace CRUD
             Console.WriteLine("\n");
 
             Console.Write("Título: ");
-            livro.Titulo = LerEntradaValida();
+            livro.Titulo = IsText();
 
             Console.Write("Autor: ");
-            livro.Autor = LerEntradaValida();
+            livro.Autor = IsText();
 
             Console.Write("Ano de Publicação: ");
-            livro.AnoPublicacao = LerApenasNumero();
+            livro.AnoPublicacao = IsNumber();
+
+            Console.Write("Valor: ");
+            livro.Valor = IsNumber();
 
             livroManager.AdicionarLivro(livro);
 
             Console.WriteLine("Livro adicionado com sucesso!");
         }
-
-        static string LerEntradaValida()
+        static string IsText()
         {
             string input;
             bool valido = false;
             do
             {
                 input = Console.ReadLine();
-                valido = !string.IsNullOrEmpty(input) && input.All(char.IsLetter);
+                valido = !string.IsNullOrEmpty(input) && input.Any(char.IsLetter);
                 if (!valido)
                 {
-                    Console.Write("Apenas TEXTOS são permitidos neste campo. Digite novamente: ");
+                    Console.Write("Opção Inválida! Digite Novamente: \n");
                 }
             } while (!valido);
             return input;
         }
-
-        static int LerApenasNumero()
+        static decimal IsNumber()
         {
-            int numero;
+            decimal numero;
             bool valido = false;
             do
             {
                 string input = Console.ReadLine();
-                valido = int.TryParse(input, out numero);
+                valido = decimal.TryParse(input, out numero) && !string.IsNullOrEmpty(input);
                 if (!valido)
                 {
-                    Console.Write("Apenas NÚMEROS são permitidos neste campo. Digite novamente: ");
+                    Console.Write("Opção Inválida! Digite Novamente: \n");
                 }
             } while (!valido);
             return numero;
@@ -129,13 +130,16 @@ namespace CRUD
             if (livroExistente != null)
             {
                 Console.Write("Novo título: ");
-                livroExistente.Titulo = Console.ReadLine();
+                livroExistente.Titulo = IsText();
 
                 Console.Write("Novo autor: ");
-                livroExistente.Autor = Console.ReadLine();
+                livroExistente.Autor = IsText();
 
                 Console.Write("Novo ano de publicação: ");
-                livroExistente.AnoPublicacao = Convert.ToInt32(Console.ReadLine());
+                livroExistente.AnoPublicacao = IsNumber();
+
+                Console.Write("Novo valor: ");
+                livroExistente.Valor = IsNumber();
 
                 Console.WriteLine("Livro atualizado com sucesso!");
             }
@@ -166,7 +170,7 @@ namespace CRUD
             List<Livro> livros = livroManager.ObterLivros();
             foreach (Livro livro in livros)
             {
-                Console.WriteLine($"ID: {livro.Id}, Título: {livro.Titulo}, Autor: {livro.Autor}, Ano de Publicação: {livro.AnoPublicacao}");
+                Console.WriteLine($"ID: {livro.Id}, Título: {livro.Titulo}, Autor: {livro.Autor}, Ano de Publicação: {livro.AnoPublicacao}, Valor: {livro.Valor}");
             }
         }
     }
